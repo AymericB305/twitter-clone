@@ -1,11 +1,11 @@
 <template>
   <div class="flex pt-4 pr-4">
-    <div class="pt-2 pl-4 mr-3">
-      <img class="rounded-full w-28"
+    <div class="m-2">
+      <img class="w-12 h-12 rounded-full"
         src="https://pbs.twimg.com/profile_images/1121328878142853120/e-rpjoJi_bigger.png" alt="" />
     </div>
 
-    <div>
+    <div class="max-w-lg mb-2">
       <div class="flex items-center gap-2">
         <p>{{ tweet?.user?.name }}</p>
         <p class="text-sm text-gray-400">
