@@ -14,20 +14,10 @@
 </template>
 
 <script lang="ts" setup>
-import type { User } from '~/models/user';
+import { useTwitterStore } from '~/store/store';
 
-const suggestions: User[] = [
-  {
-    name: "Fingolfin",
-    tn: "AymeBric305",
-    avatarPath: ""
-  },
-  {
-    name: "Test",
-    tn: "test",
-    avatarPath: ""
-  },
-];
+const store = useTwitterStore()
+const { suggestions } = storeToRefs(store)
 
 function follow() {
   console.log(follow);  

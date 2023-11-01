@@ -20,26 +20,10 @@
 </template>
 
 <script lang="ts" setup>
-import type { Trend } from '~/models/trend';
+import { useTwitterStore } from '~/store/store';
 
-const trends: Trend[] = [
-  {
-    name: "Dinguerie",
-    tweetsAmount: 6000,
-  },
-  {
-    name: "MustSee",
-    tweetsAmount: 5000,
-  },
-  {
-    name: "Wejdene",
-    tweetsAmount: 3000,
-  },
-  {
-    name: "Caramel",
-    tweetsAmount: 2500,
-  },
-]
+const store = useTwitterStore()
+const { trends } = storeToRefs(store)
 
 function click(i: number) {
   console.log("test", i)

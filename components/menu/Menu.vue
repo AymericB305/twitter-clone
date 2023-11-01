@@ -90,12 +90,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { User } from '~/models/user';
+import { useTwitterStore } from '~/store/store';
 
-const me: User = {
-  name: "Fingolfin",
-  tn: "AymeBric305",
-  avatarPath: "",
-}
+const store = useTwitterStore()
+const { me } = storeToRefs(store)
 
 </script>
