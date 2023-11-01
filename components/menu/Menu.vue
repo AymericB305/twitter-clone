@@ -1,6 +1,6 @@
 <template>
   <div>
-    <svg viewBox="0 0 24 24" class="w-12 h-12 mt-4 text-white" fill="currentColor">
+    <svg viewBox="0 0 24 24" class="w-12 h-12 mt-4" fill="currentColor">
       <g>
         <path
           d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z">
@@ -9,88 +9,100 @@
     </svg>
 
     <nav class="px-2 mt-5">
-      <a href="#"
-        class="flex items-center px-2 py-2 text-base font-semibold leading-6 text-blue-300 rounded-full group bg-slate-800">
-        <svg class="w-6 h-6 mr-4 " stroke="currentColor" fill="none" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10M9 21h6" />
-        </svg>
-        Home
-      </a>
-      <a href="#"
-        class="flex items-center px-2 py-2 mt-1 text-base font-semibold leading-6 rounded-full group hover:bg-slate-800 hover:text-blue-300">
-        <svg class="w-6 h-6 mr-4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          stroke="currentColor" viewBox="0 0 24 24">
-          <path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path>
-        </svg>
+      <UButton 
+        icon="i-heroicons-home"
+        size="sm"
+        color="sky"
+        variant="ghost"
+        label="Home"
+        :ui="{ rounded: 'rounded-full' }"
+        block
+      />
+      <UButton 
+        icon="i-heroicons-hashtag"
+        size="sm"
+        color="sky"
+        variant="ghost"
+        label="Explore"
+        :ui="{ rounded: 'rounded-full' }"
+        block
+      />
+      <UButton 
+        icon="i-heroicons-bell"
+        size="sm"
+        color="sky"
+        variant="ghost"
+        label="Notifications"
+        :ui="{ rounded: 'rounded-full' }"
+        block
+      />
+      <UButton 
+        icon="i-heroicons-envelope"
+        size="sm"
+        color="sky"
+        variant="ghost"
+        label="Messages"
+        :ui="{ rounded: 'rounded-full' }"
+        block
+      />
+      <UButton 
+        icon="i-heroicons-bookmark"
+        size="sm"
+        color="sky"
+        variant="ghost"
+        label="Bookmarks"
+        :ui="{ rounded: 'rounded-full' }"
+        block
+      />
+      <UButton 
+        icon="i-heroicons-queue-list"
+        size="sm"
+        color="sky"
+        variant="ghost"
+        label="Lists"
+        :ui="{ rounded: 'rounded-full' }"
+        block
+      />
+      <UButton 
+        icon="i-heroicons-user"
+        size="sm"
+        color="sky"
+        variant="ghost"
+        label="Profile"
+        :ui="{ rounded: 'rounded-full' }"
+        block
+      />
+      <UButton 
+        icon="i-heroicons-ellipsis-horizontal-circle"
+        size="sm"
+        color="sky"
+        variant="ghost"
+        label="Home"
+        :ui="{ rounded: 'rounded-full' }"
+        block
+      />
 
-        Explore
-      </a>
-      <a href="#"
-        class="flex items-center px-2 py-2 mt-1 text-base font-medium leading-6 rounded-full group hover:bg-slate-800 hover:text-blue-300">
-        <svg class="w-6 h-6 mr-4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
-          </path>
-        </svg>
-        Notifications
-      </a>
-      <a href="#"
-        class="flex items-center px-2 py-2 mt-1 text-base font-medium leading-6 rounded-full group hover:bg-slate-800 hover:text-blue-300">
-        <svg class="w-6 h-6 mr-4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-          </path>
-        </svg>
-        Messages
-      </a>
-      <a href="#"
-        class="flex items-center px-2 py-2 mt-1 text-base font-medium leading-6 rounded-full group hover:bg-slate-800 hover:text-blue-300">
-        <svg class="w-6 h-6 mr-4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          stroke="currentColor" viewBox="0 0 24 24">
-          <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
-        </svg>
-        Bookmarks
-      </a>
-      <a href="#"
-        class="flex items-center px-2 py-2 mt-1 text-base font-medium leading-6 rounded-full group hover:bg-slate-800 hover:text-blue-300">
-        <svg class="w-6 h-6 mr-4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
-          </path>
-        </svg>
-        Lists
-      </a>
-      <a href="#"
-        class="flex items-center px-2 py-2 mt-1 text-base font-medium leading-6 rounded-full group hover:bg-slate-800 hover:text-blue-300">
-        <svg class="w-6 h-6 mr-4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          stroke="currentColor" viewBox="0 0 24 24">
-          <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-        </svg>
-        Profile
-      </a>
-      <a href="#"
-        class="flex items-center px-2 py-2 mt-1 text-base font-medium leading-6 rounded-full group hover:bg-slate-800 hover:text-blue-300">
-        <svg class="w-6 h-6 mr-4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          stroke="currentColor" viewBox="0 0 24 24">
-          <path d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-        More
-      </a>
-
-      <button class="w-48 px-4 py-2 mt-5 font-bold text-white rounded-full bg-slate-400 hover:bg-slate-600">
-        Tweet
-      </button>
+      <UButton 
+        size="lg"
+        color="blue"
+        label="Tweet"
+        :ui="{ rounded: 'rounded-full' }"
+        block
+      />
     </nav>
 
-    <Me />
+    <Me :me="me" />
 
   </div>
 </template>
 
 <script lang="ts" setup>
+import type { User } from '~/models/user';
+
+const me: User = {
+  name: "Fingolfin",
+  tn: "AymeBric305",
+  avatarPath: "",
+}
 
 </script>
