@@ -8,7 +8,7 @@
       </g>
     </svg>
 
-    <nav class="px-2 mt-5">
+    <nav class="flex flex-col px-2 mt-5">
       <UButton 
         icon="i-heroicons-home"
         size="sm"
@@ -16,7 +16,6 @@
         variant="ghost"
         label="Home"
         :ui="{ rounded: 'rounded-full' }"
-        block
       />
       <UButton 
         icon="i-heroicons-hashtag"
@@ -25,7 +24,6 @@
         variant="ghost"
         label="Explore"
         :ui="{ rounded: 'rounded-full' }"
-        block
       />
       <UButton 
         icon="i-heroicons-bell"
@@ -34,7 +32,6 @@
         variant="ghost"
         label="Notifications"
         :ui="{ rounded: 'rounded-full' }"
-        block
       />
       <UButton 
         icon="i-heroicons-envelope"
@@ -43,7 +40,6 @@
         variant="ghost"
         label="Messages"
         :ui="{ rounded: 'rounded-full' }"
-        block
       />
       <UButton 
         icon="i-heroicons-bookmark"
@@ -52,7 +48,6 @@
         variant="ghost"
         label="Bookmarks"
         :ui="{ rounded: 'rounded-full' }"
-        block
       />
       <UButton 
         icon="i-heroicons-queue-list"
@@ -61,7 +56,6 @@
         variant="ghost"
         label="Lists"
         :ui="{ rounded: 'rounded-full' }"
-        block
       />
       <UButton 
         icon="i-heroicons-user"
@@ -70,7 +64,6 @@
         variant="ghost"
         label="Profile"
         :ui="{ rounded: 'rounded-full' }"
-        block
       />
       <UButton 
         icon="i-heroicons-ellipsis-horizontal-circle"
@@ -79,7 +72,6 @@
         variant="ghost"
         label="Home"
         :ui="{ rounded: 'rounded-full' }"
-        block
       />
 
       <UButton 
@@ -87,6 +79,7 @@
         color="blue"
         label="Tweet"
         :ui="{ rounded: 'rounded-full' }"
+        class="mt-4"
         block
       />
     </nav>
