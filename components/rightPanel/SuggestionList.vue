@@ -1,25 +1,35 @@
 <template>
-<div class="max-w-sm m-4 overflow-hidden rounded-lg shadow-lg bg-slate-800">
-  <div class="flex">
-    <div class="flex-1 m-2">
-      <h2 class="w-48 px-4 py-2 text-xl font-semibold text-white">Who to follow</h2>
-    </div>
-  </div>
-  <hr class="border-gray-600">
+<div class="m-4 rounded-lg shadow-lg bg-slate-800">
+  <h2 class="p-4 text-xl font-semibold">Who to follow</h2>
 
-  <Suggestion />
-  <Suggestion />
+  <Suggestion
+    v-for="suggestion in suggestions"
+    :user="suggestion"
+    @follow="follow()"  
+  />
 
   <!--show more-->
-  <div class="flex">
-    <div class="flex-1 p-4">
-      <h2 class="w-48 px-4 ml-2 font-bold text-blue-400">Show more</h2>
-    </div>
-  </div>
-
+  <h2 class="p-4 font-bold text-blue-400 hover:bg-slate-700 hover:cursor-pointer">Show more</h2>
 </div>
 </template>
 
 <script lang="ts" setup>
+import type { User } from '~/models/user';
 
+const suggestions: User[] = [
+  {
+    name: "Fingolfin",
+    tn: "AymeBric305",
+    avatarPath: ""
+  },
+  {
+    name: "Test",
+    tn: "test",
+    avatarPath: ""
+  },
+];
+
+function follow() {
+  console.log(follow);  
+}
 </script>
