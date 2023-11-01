@@ -6,8 +6,8 @@
     
     <CreateTweet />
 
-    <Tweet /> 
-    <Tweet />
+    <Tweet :tweet="tweet" /> 
+    <Tweet :tweet="tweet" />
     <!-- <div class="flex flex-shrink-0 p-4 pb-0">
       <a href="#" class="flex-shrink-0 block group">
         <div class="flex items-center">
@@ -117,7 +117,7 @@
       </div>
 
     </div> -->
-    <Tweet />
+    <Tweet :tweet="tweet" />
     <!-- <div class="flex flex-shrink-0 p-4 pb-0">
       <a href="#" class="flex-shrink-0 block group">
         <div class="flex items-center">
@@ -225,8 +225,26 @@
 </template>
 
 <script lang="ts" setup>
+import type { Tweet } from '~/models/tweet';
+import type { User } from '~/models/user';
+
 definePageMeta({
   middleware: ['auth']
 })
+
+const me: User = {
+  name: "Fingolfin",
+  tn: "AymeBric305",
+  avatarPath: "",
+}
+
+const tweet: Tweet = {
+  user: me,
+  date: "16 April",
+  text: "Day 07 of the challenge #100DaysOfCode I was wondering what I can do with #tailwindcss, so just started building Twitter UI using Tailwind and so far it looks so promising. I will post my code after completion. [07/100] #WomenWhoCode #CodeNewbie",
+  likes: 2,
+  replies: [],
+  retweets: 4,
+}
 
 </script>
