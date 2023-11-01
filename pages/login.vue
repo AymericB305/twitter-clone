@@ -9,13 +9,13 @@
         type="email"
         placeholder="Email"
         v-model="email"
-        class="p-2 text-black rounded bg-charcoal-600"
+        class="p-2 text-black bg-white rounded"
       />
       <input
         type="password"
         placeholder="Password"
         v-model="password"
-        class="p-2 text-black rounded bg-charcoal-600"
+        class="p-2 text-black bg-white rounded"
       />
       <button
         type="submit"
@@ -37,7 +37,8 @@
 
 <script lang="ts" setup>
 definePageMeta({
-  middleware: ['auth']
+  middleware: ['auth'],
+  layout: false
 })
 
 const email = ref('')
@@ -49,8 +50,7 @@ const signUp = async () => {
     email: email.value,
     password: password.value
   })
-  console.log('user', data.user)
-  console.log('error', error)  
+  alert('Check your email for the login link!')
 }
 
 const login = async () => {
@@ -58,8 +58,6 @@ const login = async () => {
     email: email.value,
     password: password.value
   })
-  console.log('user', data.user)
-  console.log('error', error)
 }
 
 const user = useSupabaseUser()

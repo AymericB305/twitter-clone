@@ -1,5 +1,9 @@
 <template>
-  <div class="min-h-screen bg-slate-900 text-white">
+  <div class="flex justify-center min-h-screen text-white bg-slate-900">
+    <Menu />
+    
     <slot />
+    
+    <RightPanel />
   </div>
 </template>
