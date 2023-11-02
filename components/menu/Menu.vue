@@ -16,14 +16,7 @@
         variant="ghost"
         label="Home"
         :ui="{ rounded: 'rounded-full' }"
-      />
-      <UButton 
-        icon="i-heroicons-hashtag"
-        size="sm"
-        color="sky"
-        variant="ghost"
-        label="Explore"
-        :ui="{ rounded: 'rounded-full' }"
+        @click="navigateTo('/')"
       />
       <UButton 
         icon="i-heroicons-bell"
@@ -32,6 +25,7 @@
         variant="ghost"
         label="Notifications"
         :ui="{ rounded: 'rounded-full' }"
+        @click="navigateTo('/notifications')"
       />
       <UButton 
         icon="i-heroicons-envelope"
@@ -40,6 +34,7 @@
         variant="ghost"
         label="Messages"
         :ui="{ rounded: 'rounded-full' }"
+        @click="navigateTo('/messages')"
       />
       <UButton 
         icon="i-heroicons-bookmark"
@@ -48,6 +43,7 @@
         variant="ghost"
         label="Bookmarks"
         :ui="{ rounded: 'rounded-full' }"
+        @click="navigateTo('/bookmarks')"
       />
       <UButton 
         icon="i-heroicons-queue-list"
@@ -56,6 +52,7 @@
         variant="ghost"
         label="Lists"
         :ui="{ rounded: 'rounded-full' }"
+        @click="navigateTo('/lists')"
       />
       <UButton 
         icon="i-heroicons-user"
@@ -64,13 +61,14 @@
         variant="ghost"
         label="Profile"
         :ui="{ rounded: 'rounded-full' }"
+        @click="navigateTo('/{{ meState.me.name }}')"
       />
       <UButton 
         icon="i-heroicons-ellipsis-horizontal-circle"
         size="sm"
         color="sky"
         variant="ghost"
-        label="Home"
+        label="More"
         :ui="{ rounded: 'rounded-full' }"
       />
 
@@ -84,7 +82,7 @@
       />
     </nav>
 
-    <Me :me="me" />
+    <Me :me="meState.me" />
 
   </div>
 </template>
@@ -93,6 +91,6 @@
 import { useTwitterStore } from '~/store/store';
 
 const store = useTwitterStore()
-const { me } = storeToRefs(store)
+const { meState } = storeToRefs(store)
 
 </script>
