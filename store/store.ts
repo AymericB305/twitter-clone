@@ -1,13 +1,6 @@
 import type { User } from '~/models/user';
 import type { Tweet } from '~/models/tweet';
-import type { Trend } from '~/models/trend';
-
-type State = {
-  me: User,
-  tweets: Tweet[],
-  suggestions: User[],
-  trends: Trend[],
-}
+import type { State } from './state';
 
 const me: User = {
   name: "Fingolfin",
@@ -25,18 +18,11 @@ const tweet: Tweet = {
 }
 
 const initialState: State = {
-  me: me,
-  tweets: [
-    {
-      user: me,
-      date: "16 April",
-      text: "Ceci est un tweet ratio palu menfou pleure hurle chouine",
-      likes: 8,
-      replies: [tweet, tweet],
-      retweets: 65,
-    },
-    tweet
-  ],
+  meState: {
+    me,
+    notifications: [],
+    conversations: [],
+  },
   suggestions: [
     me, me,
   ],
@@ -57,7 +43,20 @@ const initialState: State = {
       name: "Caramel",
       tweetsAmount: 2500,
     },
-  ]
+  ],
+  timeline: [
+    {
+      user: me,
+      date: "16 April",
+      text: "Ceci est un tweet ratio palu menfou pleure hurle chouine",
+      likes: 8,
+      replies: [tweet, tweet],
+      retweets: 65,
+    },
+    tweet
+  ],
+  userState: undefined,
+  searchState: undefined,
 }
 
 export const useTwitterStore = defineStore({
@@ -65,10 +64,16 @@ export const useTwitterStore = defineStore({
   state: (): State => initialState,
 
   actions: {
-
+    sendTweet(tweet: Tweet) {
+      this.timeline.unshift(tweet)
+    },
   },
 
   getters: {
 
   },
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useTwitterStore, import.meta.hot))
+}

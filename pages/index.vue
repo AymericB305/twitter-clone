@@ -6,7 +6,7 @@
     
     <CreateTweet />
 
-    <Tweet v-for="tweet in tweets" :tweet="tweet" />
+    <Tweet v-for="tweet in timeline" :tweet="tweet" />
 
   </div>
 </template>
@@ -19,6 +19,6 @@ definePageMeta({
 })
 
 const store = useTwitterStore()
-const { tweets } = storeToRefs(store)
+const { timeline } = storeToRefs(store)
 
 </script>

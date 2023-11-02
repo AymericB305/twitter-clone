@@ -6,7 +6,7 @@
     </div>
 
     <div class="flex-grow p-2">
-      <UTextarea class="w-fullfont-medium" variant="none" size="xl" :rows="2" cols="50" placeholder="What's happening?" />
+      <UTextarea class="w-fullfont-medium" v-model="newTweet" variant="none" size="xl" :rows="2" cols="50" placeholder="What's happening?" />
     
       <div class="flex justify-between">
         <div class="flex items-center">
@@ -53,6 +53,7 @@
           label="Tweet"
           class="!text-white"
           :ui="{ rounded: 'rounded-full' }"
+          @click="sendTweet()"
         />
       </div>
     </div>
@@ -62,5 +63,25 @@
 </template>
 
 <script lang="ts" setup>
+import type { Tweet } from '~/models/tweet';
+import { useTwitterStore } from '~/store/store';
 
+const newTweet = ref('')
+const store = useTwitterStore()
+
+function sendTweet() {
+  console.log(newTweet.value);
+  
+  if (newTweet.value) {
+    const tweet: Tweet = {
+      text: newTweet.value,
+      user: store.meState.me,
+      date: Date.now().toString(),
+      replies: [],
+      retweets: 0,
+      likes: 0,
+    }
+    store.sendTweet(tweet)
+  }
+}
 </script>
