@@ -1,5 +1,5 @@
 export type User = {
   name: string,
-  tn: string,
-  avatarPath: string,
+  twitter_name: string,
+  avatar_path: string,
 }

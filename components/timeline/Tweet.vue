@@ -2,14 +2,14 @@
   <div class="flex pt-4 pr-4">
     <div class="m-2">
       <img class="w-12 h-12 rounded-full"
-        src="https://pbs.twimg.com/profile_images/1121328878142853120/e-rpjoJi_bigger.png" alt="" />
+      :src="tweet?.user?.avatar_path" alt="" />
     </div>
 
     <div class="flex-grow max-w-lg mb-2">
       <div class="flex items-center gap-2">
         <p>{{ tweet?.user?.name }}</p>
         <p class="text-sm text-gray-400">
-          @{{ tweet?.user?.tn }}
+          @{{ tweet?.user?.twitter_name }}
         </p>
       </div>
 

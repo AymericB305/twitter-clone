@@ -2,7 +2,7 @@
   <div class="flex">
     <div class="m-2">
       <img class="w-12 h-12 rounded-full"
-        src="https://pbs.twimg.com/profile_images/1121328878142853120/e-rpjoJi_bigger.png" alt="" />
+        :src="store.meState.me.avatar_path" alt="" />
     </div>
 
     <div class="flex-grow p-2">
@@ -69,9 +69,7 @@ import { useTwitterStore } from '~/store/store';
 const newTweet = ref('')
 const store = useTwitterStore()
 
-function sendTweet() {
-  console.log(newTweet.value);
-  
+function sendTweet() {  
   if (newTweet.value) {
     const tweet: Tweet = {
       text: newTweet.value,

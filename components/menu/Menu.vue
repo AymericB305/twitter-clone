@@ -82,15 +82,26 @@
       />
     </nav>
 
-    <Me :me="meState.me" />
+    <Me :me="data ?? me" />
 
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useTwitterStore } from '~/store/store';
+import type { User } from '~/models/user'
 
 const store = useTwitterStore()
 const { meState } = storeToRefs(store)
+
+const client = useClient()
+
+const { data } = await client
+  .from('User')
+  .select('*')
+  .eq('name', store.meState.me.name)
+  .single()
+
+let me: User
 
 </script>

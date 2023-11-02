@@ -2,13 +2,13 @@
   <div class="flex justify-between p-4">
     <div class="flex items-center">
       <img class="h-10 mr-2 rounded-full"
-        src="https://pbs.twimg.com/profile_images/1121328878142853120/e-rpjoJi_bigger.png" alt="" />
+      :src="user?.avatar_path" alt="" />
       <div class="flex flex-col">
         <p>
           {{ user?.name }}
         </p>
         <p class="text-sm text-gray-400">
-          @{{ user?.tn }}
+          @{{ user?.twitter_name }}
         </p>
       </div>
     </div>

@@ -3,9 +3,9 @@ import type { Tweet } from '~/models/tweet';
 import type { State } from './state';
 
 const me: User = {
-  name: "Fingolfin",
-  tn: "AymeBric305",
-  avatarPath: "",
+  name: "AymeBric305",
+  twitter_name: "Fingolfin",
+  avatar_path: "https://pbs.twimg.com/profile_images/1121328878142853120/e-rpjoJi_bigger.png",
 }
 
 const tweet: Tweet = {
