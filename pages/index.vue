@@ -18,7 +18,6 @@ definePageMeta({
   middleware: ['auth']
 })
 
-
 const store = useTwitterStore()
 const { tweets } = storeToRefs(store)
 

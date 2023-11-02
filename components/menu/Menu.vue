@@ -79,7 +79,7 @@
         color="blue"
         label="Tweet"
         :ui="{ rounded: 'rounded-full' }"
-        class="mt-4"
+        class="mt-4 !text-white"
         block
       />
     </nav>
