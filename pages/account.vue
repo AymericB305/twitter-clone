@@ -1,57 +1,62 @@
 <template>
-  <form class="form-widget" @submit.prevent="updateProfile">
-    <div>
-      <label for="email">Email</label>
-      <input id="email" type="text" :value="user.email" disabled />
-    </div>
-    <div>
-      <label for="username">Username</label>
-      <input id="username" type="text" v-model="username" />
-    </div>
-    <div>
-      <label for="tn">Pseudo</label>
-      <input id="tn" type="text" v-model="tn" />
-    </div>
-    <div>
-      <label for="birthday">Birthday</label>
-      <input id="birthday" type="date" v-model="birthday" />
-    </div>
+  <div class="flex items-center justify-center">
+    <UForm class="w-64" :validate="validate" :state="formState" @submit="updateProfile">
+      <UFormGroup label="Email" name="email">
+        <UInput v-model="formState.email" disabled />
+      </UFormGroup>
+      <UFormGroup label="Username" name="username">
+        <UInput v-model="formState.username" />
+      </UFormGroup>
+      <UFormGroup label="Tn" name="tn">
+        <UInput v-model="formState.tn" />
+      </UFormGroup>
+      <UFormGroup label="Birthday" name="birthday">
+        <UInput v-model="formState.birthday" />
+      </UFormGroup>
 
-    <div>
-      <input
-        type="submit"
-        class="block button primary"
-        :value="'Update'"
-      />
-    </div>
-
-    <div>
-      <button class="block button" @click="signOut" :disabled="loading">Sign Out</button>
-    </div>
-  </form>
+      <UButton type="submit">
+        Update
+      </UButton>
+    </UForm>
+  </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types';
+
 definePageMeta({
   layout: false
 })
+
 const supabase = useClient()
-
-const username = ref('')
-const tn = ref('')
-const birthday = ref('')
-const avatar_path = ref('')
-
 const user = useSupabaseUser()
 
-async function updateProfile() {
+const formState = reactive({
+  email: user.value?.email,
+  username: undefined,
+  tn: undefined,
+  birthday: undefined,
+  avatar_path: ''
+})
+
+const validate = (state: any): FormError[] => {
+  const errors = []
+  if (!state.username) errors.push({ path: 'username', message: 'Required' })
+  if (!state.tn) errors.push({ path: 'tn', message: 'Required' })
+  if (!state.birthday) errors.push({ path: 'birthday', message: 'Required' })
+  return errors
+}
+
+async function updateProfile(event: FormSubmitEvent<any>) {
   try {
+    const formValues = toRaw(event.data)
+    
     const updates = {
-      name: username.value,
-      twitter_name: tn.value,
-      email: user.value.email,
-      birthday: birthday.value,
-      avatar_path: avatar_path.value,
+      name: formValues.username,
+      twitter_name: formValues.tn,
+      email: formValues.email,
+      birthday: formValues.birthday,
+      avatar_path: formValues.avatar_path,
       updated_at: new Date(),
     }
 
@@ -63,21 +68,18 @@ async function updateProfile() {
     if (error) {
       throw error
     }
-  } catch (error) {
+  } catch (error: any) {
     alert(error.message)
   }
 }
 
 async function signOut() {
   try {
-    loading.value = true
     const { error } = await supabase.auth.signOut()
     if (error) throw error
     user.value = null
-  } catch (error) {
+  } catch (error: any) {
     alert(error.message)
-  } finally {
-    loading.value = false
   }
 }
 </script>
