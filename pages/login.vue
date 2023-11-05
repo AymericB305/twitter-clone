@@ -35,12 +35,10 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 definePageMeta({
-  middleware: ['auth'],
   layout: false
 })
-
 const email = ref('')
 const password = ref('')
 const isSignUp = ref(false)
@@ -64,7 +62,7 @@ const user = useSupabaseUser()
 onMounted(() => {
   watchEffect(() => {
     if (user.value) {
-      navigateTo('/timeline')
+      navigateTo('/')
     }
   })
 })

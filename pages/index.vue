@@ -14,10 +14,6 @@
 <script lang="ts" setup>
 import { useTwitterStore } from '~/store/store';
 
-definePageMeta({
-  middleware: ['auth']
-})
-
 const store = useTwitterStore()
 const { timeline } = storeToRefs(store)
 
