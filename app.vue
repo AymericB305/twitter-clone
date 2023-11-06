@@ -8,7 +8,7 @@
 const supabase = useClient()
 const user = useSupabaseUser()
 
-if (!user?.value) {
+if (!user?.value && useRoute().path != '/login') {
   navigateTo('/login')
 }
 else {
