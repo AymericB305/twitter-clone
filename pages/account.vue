@@ -1,6 +1,10 @@
 <template>
   <div class="flex items-center justify-center">
     <UForm class="w-64" :validate="validate" :state="formState" @submit="updateProfile">
+      <div>
+        <img :src="previewImage" class="flex" />
+        <input type="file" accept="image/png" @change=uploadImage>
+      </div>
       <UFormGroup label="Email" name="email">
         <UInput v-model="formState.email" disabled />
       </UFormGroup>
@@ -36,8 +40,9 @@ const formState = reactive({
   username: undefined,
   tn: undefined,
   birthday: undefined,
-  avatar_path: ''
 })
+
+const previewImage = ref()
 
 const validate = (state: any): FormError[] => {
   const errors = []
@@ -48,7 +53,7 @@ const validate = (state: any): FormError[] => {
 }
 
 async function updateProfile(event: FormSubmitEvent<any>) {
-  try {
+  try {    
     const formValues = toRaw(event.data)
     
     const updates = {
@@ -70,6 +75,23 @@ async function updateProfile(event: FormSubmitEvent<any>) {
     }
   } catch (error: any) {
     alert(error.message)
+  }
+}
+
+async function uploadImage(e: any) {
+  const image = e.target.files[0]
+  const reader = new FileReader()
+  reader.readAsDataURL(image)
+  reader.onload = e => {
+    previewImage.value = e?.target?.result
+  }
+  
+  const email = user.value?.email ?? ''
+  const { data, error } = await supabase.storage.from('avatars').upload(email, e.target.files[0], { upsert: true })
+  if (error) {
+    alert(error.message)
+  } else {
+    console.log(data);    
   }
 }
 
