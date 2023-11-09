@@ -8,100 +8,64 @@
       </g>
     </svg>
 
-    <nav class="flex flex-col px-2 mt-5">
-      <UButton 
-        icon="i-heroicons-home"
-        size="sm"
-        color="sky"
-        variant="ghost"
-        label="Home"
-        :ui="{ rounded: 'rounded-full' }"
-        @click="navigateTo('/')"
-      />
-      <UButton 
-        icon="i-heroicons-bell"
-        size="sm"
-        color="sky"
-        variant="ghost"
-        label="Notifications"
-        :ui="{ rounded: 'rounded-full' }"
-        @click="navigateTo('/notifications')"
-      />
-      <UButton 
-        icon="i-heroicons-envelope"
-        size="sm"
-        color="sky"
-        variant="ghost"
-        label="Messages"
-        :ui="{ rounded: 'rounded-full' }"
-        @click="navigateTo('/messages')"
-      />
-      <UButton 
-        icon="i-heroicons-bookmark"
-        size="sm"
-        color="sky"
-        variant="ghost"
-        label="Bookmarks"
-        :ui="{ rounded: 'rounded-full' }"
-        @click="navigateTo('/bookmarks')"
-      />
-      <UButton 
-        icon="i-heroicons-queue-list"
-        size="sm"
-        color="sky"
-        variant="ghost"
-        label="Lists"
-        :ui="{ rounded: 'rounded-full' }"
-        @click="navigateTo('/lists')"
-      />
-      <UButton 
-        icon="i-heroicons-user"
-        size="sm"
-        color="sky"
-        variant="ghost"
-        label="Profile"
-        :ui="{ rounded: 'rounded-full' }"
-        @click="navigateTo('/{{ meState.me.name }}')"
-      />
-      <UButton 
-        icon="i-heroicons-ellipsis-horizontal-circle"
-        size="sm"
-        color="sky"
-        variant="ghost"
-        label="More"
-        :ui="{ rounded: 'rounded-full' }"
-      />
+    <UVerticalNavigation :links="links" />
 
-      <UButton 
-        size="lg"
-        color="blue"
-        label="Tweet"
-        :ui="{ rounded: 'rounded-full' }"
-        class="mt-4 !text-white"
-        block
-      />
-    </nav>
+    <UButton 
+      size="lg"
+      color="blue"
+      label="Tweet"
+      :ui="{ rounded: 'rounded-full' }"
+      class="mt-4 !text-white"
+      block
+    />
 
-    <Me :me="data ?? me" />
+    <Me :me="me" />
 
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useTwitterStore } from '~/store/store';
-import type { User } from '~/models/user'
 
 const store = useTwitterStore()
-const { meState } = storeToRefs(store)
+store.loadMe()
+const me = store.meState.me;
 
-const client = useClient()
-
-const { data } = await client
-  .from('User')
-  .select('*')
-  .eq('name', store.meState.me.name)
-  .single()
-
-let me: User
+const links = [
+  {
+    label: 'Home',
+    icon: 'i-heroicons-home',
+    to: '/'
+  },
+  {
+    label: 'Notifications',
+    icon: 'i-heroicons-bell',
+    to: '/notifications'
+  },
+  {
+    label: 'Messages',
+    icon: 'i-heroicons-envelope',
+    to: '/messages'
+  },
+  {
+    label: 'Bookmars',
+    icon: 'i-heroicons-bookmark',
+    to: '/bookmarks'
+  },
+  {
+    label: 'Lists',
+    icon: 'i-heroicons-queue-list',
+    to: '/lists'
+  },
+  {
+    label: 'Profile',
+    icon: 'i-heroicons-user',
+    to: '/' + me.name
+  },
+  {
+    label: 'More',
+    icon: 'i-heroicons-ellipsis-horizontal-circle',
+  },
+]
 
 </script>

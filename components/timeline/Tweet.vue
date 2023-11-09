@@ -2,7 +2,7 @@
   <div class="flex pt-4 pr-4">
     <div class="m-2">
       <img class="w-12 h-12 rounded-full"
-      :src="tweet?.user?.avatar_path" alt="" />
+      :src="avatars_URL + tweet?.user?.email" alt="" />
     </div>
 
     <div class="flex-grow max-w-lg mb-2">
@@ -24,19 +24,19 @@
           variant="ghost"
           class="hover:text-blue-500"
           :ui="{ padding: 'p-0'}"
-        >{{tweet?.replies?.length}}</UButton>
+        >{{ tweet?.replies?.length }}</UButton>
         <UButton 
           icon="i-heroicons-arrow-path-rounded-square"
           color="black"
           variant="ghost"
           class="hover:text-green-500"
-        >{{tweet?.retweets}}</UButton>
+        >{{ tweet?.retweets }}</UButton>
         <UButton 
           icon="i-heroicons-heart"
           color="black"
           variant="ghost"
           class="hover:text-red-500"
-        >{{tweet?.likes}}</UButton>
+        >{{ tweet?.likes }}</UButton>
         <UButton 
           icon="i-heroicons-arrow-up-tray"
           color="black"
@@ -56,6 +56,7 @@
 </template>
 
 <script lang="ts" setup>
+import { avatars_URL } from '~/constants/supabase';
 import type { Tweet } from '~/models/tweet';
 
 defineProps<{ tweet?: Tweet }>()

@@ -63,7 +63,7 @@ export interface Database {
           created_at: string
           id: number
           text: string
-          user_id: number | null
+          user_id: number
         }
         Insert: {
           answer_to_id?: number | null

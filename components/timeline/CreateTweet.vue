@@ -2,7 +2,7 @@
   <div class="flex">
     <div class="m-2">
       <img class="w-12 h-12 rounded-full"
-        :src="store.meState.me.avatar_path" alt="" />
+        :src="avatars_URL + store.meState.me.email" alt="" />
     </div>
 
     <div class="flex-grow p-2">
@@ -65,6 +65,7 @@
 <script lang="ts" setup>
 import type { Tweet } from '~/models/tweet';
 import { useTwitterStore } from '~/store/store';
+import { avatars_URL } from '~/constants/supabase'
 
 const newTweet = ref('')
 const store = useTwitterStore()
@@ -80,6 +81,7 @@ function sendTweet() {
       likes: 0,
     }
     store.sendTweet(tweet)
+    newTweet.value = ''
   }
 }
 </script>

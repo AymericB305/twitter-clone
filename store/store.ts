@@ -64,7 +64,17 @@ export const useTwitterStore = defineStore({
   state: (): State => initialState,
 
   actions: {
-    sendTweet(tweet: Tweet) {
+    async loadMe() {
+      const user = useSupabaseUser();
+      const { data } = await useFetch<User>('/api/users/' + user.value?.email)
+      this.meState.me = data.value!
+    },
+    async loadTweets() {
+      const { data: tweets } = await useFetch<Tweet[]>('/api/tweets')
+      this.timeline = tweets.value!
+    },
+    async sendTweet(tweet: Tweet) {
+      await useFetch('/api/tweets', { method: 'post', body: tweet })
       this.timeline.unshift(tweet)
     },
   },

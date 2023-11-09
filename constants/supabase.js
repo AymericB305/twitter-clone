@@ -1,0 +1,1 @@
+export const avatars_URL = "https://mqqjyblshqnbnxetmolr.supabase.co/storage/v1/object/public/avatars/"

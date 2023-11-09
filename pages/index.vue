@@ -15,6 +15,7 @@
 import { useTwitterStore } from '~/store/store';
 
 const store = useTwitterStore()
+await store.loadTweets()
 const { timeline } = storeToRefs(store)
 
 </script>
