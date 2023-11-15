@@ -1,8 +1,8 @@
 <template>
   <div class="flex justify-between p-4">
     <div class="flex items-center">
-      <img class="h-10 mr-2 rounded-full"
-      :src="user?.avatar_path" alt="" />
+      <img class="w-12 h-12 mr-2 rounded-full"
+      :src="avatars_URL + store.meState.me.email" alt="" />
       <div class="flex flex-col">
         <p>
           {{ user?.name }}
@@ -24,10 +24,14 @@
 </template>
 
 <script lang="ts" setup>
+import { avatars_URL } from '~/constants/const';
 import type { User } from '~/models/user';
+import { useTwitterStore } from '~/store/store';
 
 defineProps<{ user?: User }>()
 const emit = defineEmits(['follow'])
+
+const store = useTwitterStore()
 
 function follow() {
   emit('follow')

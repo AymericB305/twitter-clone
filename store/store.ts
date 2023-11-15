@@ -8,15 +8,6 @@ const me: User = {
   twitter_name: "Fingolfin",
 }
 
-const tweet: Tweet = {
-  user: me,
-  date: "19 October",
-  text: "Day 07 of the challenge #100DaysOfCode I was wondering what I can do with #tailwindcss, so just started building Twitter UI using Tailwind and so far it looks so promising. I will post my code after completion. [07/100] #CodeNewbie",
-  likes: 2,
-  replies: [],
-  retweets: 4,
-}
-
 const initialState: State = {
   meState: {
     me,
@@ -44,17 +35,7 @@ const initialState: State = {
       tweetsAmount: 2500,
     },
   ],
-  timeline: [
-    {
-      user: me,
-      date: "16 April",
-      text: "Ceci est un tweet ratio palu menfou pleure hurle chouine",
-      likes: 8,
-      replies: [tweet, tweet],
-      retweets: 65,
-    },
-    tweet
-  ],
+  timeline: [],
   userState: undefined,
   searchState: undefined,
 }
@@ -66,16 +47,56 @@ export const useTwitterStore = defineStore({
   actions: {
     async loadMe() {
       const user = useSupabaseUser();
-      const { data } = await useFetch<User>('/api/users/' + user.value?.email)
+      const { data } = await useFetch<User>('/api/users/unknown/' + user.value?.email)
       this.meState.me = data.value!
     },
     async loadTweets() {
       const { data: tweets } = await useFetch<Tweet[]>('/api/tweets')
       this.timeline = tweets.value!
     },
-    async sendTweet(tweet: Tweet) {
-      await useFetch('/api/tweets', { method: 'post', body: tweet })
+    async sendTweet(tweetText: string) {      
+      const body = {
+        text: tweetText,
+        userName: this.meState.me.name,
+      }
+      const { data } = await useFetch('/api/tweets', { method: 'post', body })
+
+      const tweet: Tweet = {
+        id: data.value!.id,
+        text: tweetText,
+        user: this.meState.me,
+        date: data.value!.created_at,
+        replies: [],
+        interactions: [],
+      }
       this.timeline.unshift(tweet)
+    },
+    async interactTweet(name: string, action: string, tweetId: number, activate: boolean) {      
+      const tweet = this.timeline.find(t => t.id == tweetId)!
+      let interactionIndex = tweet.interactions.findIndex(i => i.user.name == name)
+
+      if (interactionIndex == -1) {
+        interactionIndex = tweet.interactions.push({
+          user: this.meState.me,
+          liked: false,
+          retweeted: false,
+          saved: false,
+        }) - 1
+      }
+
+      if (action == 'retweet') {
+        tweet.interactions[interactionIndex].retweeted = activate 
+      }
+
+      if (action == 'like') {
+        tweet.interactions[interactionIndex].liked = activate
+      }
+
+      if (action == 'bookmark') {
+        tweet.interactions[interactionIndex].saved = activate
+      }
+      
+      await useFetch(`/api/users/${name}/${action}/${tweetId}`, { method: 'put', body: { activate } })
     },
   },
 

@@ -63,24 +63,15 @@
 </template>
 
 <script lang="ts" setup>
-import type { Tweet } from '~/models/tweet';
 import { useTwitterStore } from '~/store/store';
-import { avatars_URL } from '~/constants/supabase'
+import { avatars_URL } from '~/constants/const'
 
 const newTweet = ref('')
 const store = useTwitterStore()
 
-function sendTweet() {  
-  if (newTweet.value) {
-    const tweet: Tweet = {
-      text: newTweet.value,
-      user: store.meState.me,
-      date: Date.now().toString(),
-      replies: [],
-      retweets: 0,
-      likes: 0,
-    }
-    store.sendTweet(tweet)
+async function sendTweet() {  
+  if (newTweet.value) {    
+    await store.sendTweet(newTweet.value)    
     newTweet.value = ''
   }
 }

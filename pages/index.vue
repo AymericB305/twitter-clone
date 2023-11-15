@@ -6,7 +6,19 @@
     
     <CreateTweet />
 
-    <Tweet v-for="tweet in timeline" :tweet="tweet" />
+    <Tweet
+      v-for="tweet in store.timeline"
+      :user="tweet.user"
+      :text="tweet.text"
+      :retweets="tweet.interactions.filter(i => i.retweeted)"
+      :likes="tweet.interactions.filter(i => i.liked)"
+      :hasMeRetweeted="tweet.interactions.filter(i => i.retweeted).find(i => i.user.name == store.meState.me.name) ? true : false"
+      :hasMeLiked="tweet.interactions.filter(i => i.liked).find(i => i.user.name == store.meState.me.name) ? true : false"
+      :replies="[]"
+      @retweet="interact('retweet', tweet.id, $event)"
+      @like="interact('like', tweet.id, $event)"
+      @bookmark="interact('bookmark', tweet.id, $event)"
+    />
 
   </div>
 </template>
@@ -16,6 +28,10 @@ import { useTwitterStore } from '~/store/store';
 
 const store = useTwitterStore()
 await store.loadTweets()
-const { timeline } = storeToRefs(store)
+
+async function interact(action: string, tweetId: number, activate: boolean) {
+  const name = store.meState.me.name
+  await store.interactTweet(name, action, tweetId, activate)
+}
 
 </script>

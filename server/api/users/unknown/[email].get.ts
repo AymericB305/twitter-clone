@@ -1,14 +1,14 @@
 import { serverSupabaseClient } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
-  const name = getRouterParam(event, 'name')
+  const email = getRouterParam(event, 'email')
   
-  if (name) {
+  if (email) {
     const supabase = await serverSupabaseClient(event)
     const { data } = await supabase
       .from('User')
       .select('*')
-      .eq('email', name)
+      .eq('email', email)
       .single()
     return data
   }

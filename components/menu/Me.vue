@@ -4,10 +4,10 @@
       :src="avatars_URL + me.email" alt="" />
     <div class="flex flex-col">
       <p>
-        {{ me?.name }}
+        {{ me?.twitter_name }}
       </p>
       <p class="text-sm text-gray-400">
-        @{{ me?.twitter_name }}
+        @{{ me?.name }}
       </p>
     </div>
   </div>
@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import type { User } from '~/models/user';
-import { avatars_URL } from '~/constants/supabase'
+import { avatars_URL } from '~/constants/const'
 
 defineProps<{ me: User }>()
 
