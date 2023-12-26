@@ -42,9 +42,10 @@ definePageMeta({
 const email = ref('')
 const password = ref('')
 const isSignUp = ref(false)
-const client = useSupabaseClient()
+const supabase = useClient()
+
 const signUp = async () => {
-  const { data, error } = await client.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email: email.value,
     password: password.value
   })
@@ -52,18 +53,18 @@ const signUp = async () => {
 }
 
 const login = async () => {
-  const { data, error } = await client.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email: email.value,
     password: password.value
   })
+
+  if (error) console.log(error)
 }
 
 const user = useSupabaseUser()
-onMounted(() => {
-  watchEffect(() => {
-    if (user.value) {
-      navigateTo('/')
-    }
-  })
-})
+watch(user, () => {  
+  if (user.value) {
+    return navigateTo('/account')
+  }
+}, { immediate: true })
 </script>

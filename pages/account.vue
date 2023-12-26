@@ -35,6 +35,16 @@ definePageMeta({
 const supabase = useClient()
 const user = useSupabaseUser()
 
+const { data } = await supabase
+    .from('User')
+    .select('*')
+    .eq('email', user?.value?.email ?? '')
+    .single()
+
+  if (data) {
+    navigateTo('/')
+  }
+
 const formState = reactive({
   email: user.value?.email,
   username: undefined,
@@ -61,7 +71,6 @@ async function updateProfile(event: FormSubmitEvent<any>) {
       twitter_name: formValues.tn,
       email: formValues.email,
       birthday: formValues.birthday,
-      avatar_path: formValues.avatar_path,
       updated_at: new Date(),
     }
 
@@ -73,6 +82,7 @@ async function updateProfile(event: FormSubmitEvent<any>) {
     if (error) {
       throw error
     }
+    navigateTo('/')
   } catch (error: any) {
     alert(error.message)
   }

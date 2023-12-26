@@ -128,33 +128,27 @@ export interface Database {
       }
       User: {
         Row: {
-          avatar_path: string
           birthday: string
           created_at: string
           email: string
           id: number
           name: string
-          passhash: string
           twitter_name: string
         }
         Insert: {
-          avatar_path: string
           birthday: string
           created_at: string
           email?: string
           id?: number
           name?: string
-          passhash: string
           twitter_name?: string
         }
         Update: {
-          avatar_path?: string
           birthday?: string
           created_at?: string
           email?: string
           id?: number
           name?: string
-          passhash?: string
           twitter_name?: string
         }
         Relationships: []
