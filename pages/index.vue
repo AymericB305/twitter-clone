@@ -1,9 +1,5 @@
 <template>
-  <div class="h-auto max-w-2xl border border-t-0 border-gray-600">
-    <!--header-->
-    <h2 class="m-4 text-xl font-semibold text-white">Home</h2>
-    <hr class="border-gray-600">
-    
+  <div class="h-auto border border-t-0 border-gray-600 w-3xl">    
     <CreateTweet />
 
     <Tweet
