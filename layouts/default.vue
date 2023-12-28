@@ -3,7 +3,7 @@
     <Menu />
     
     <div class="h-auto border border-t-0 border-gray-600 w-3xl">
-      <h2 class="m-4 text-xl font-semibold text-white">{{layoutCustomProps.title}}</h2>
+      <h2 class="m-4 text-xl font-semibold text-white capitalize">{{layoutCustomProps.title}}</h2>
       <hr class="border-gray-600">
       <slot />
     </div>

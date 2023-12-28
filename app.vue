@@ -1,10 +1,12 @@
 <template>
-  <NuxtLayout :title="title">
+  <NuxtLayout :title="routeName">
     <NuxtPage />
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
-let route = useRoute()
-let title = route.name == "index" ? "Home" : route.name?.toString() ?? ""
+const routeName = computed(() => 
+  useRoute().name == "index"
+  ? "home"
+  : useRoute().name)
 </script>
