@@ -22,6 +22,10 @@
 <script lang="ts" setup>
 import { useTwitterStore } from '~/store/store';
 
+definePageMeta({
+  path: '/',
+})
+
 const store = useTwitterStore()
 await store.loadTweets()
 
