@@ -11,6 +11,7 @@
       :hasMeRetweeted="tweet.interactions.filter(i => i.retweeted).find(i => i.user.name == store.meState.me.name) ? true : false"
       :hasMeLiked="tweet.interactions.filter(i => i.liked).find(i => i.user.name == store.meState.me.name) ? true : false"
       :replies="[]"
+      :date="tweet.date"
       @retweet="interact('retweet', tweet.id, $event)"
       @like="interact('like', tweet.id, $event)"
       @bookmark="interact('bookmark', tweet.id, $event)"

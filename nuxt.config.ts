@@ -28,8 +28,7 @@ export default defineNuxtConfig({
         const sections = page.path.split('/')        
         if (sections.at(-1) === sections.at(-2)) {
           page.path = page.path.slice(0, page.path.length - (sections.at(-1)!.length + 1))
-          page.name = page.name?.slice(0, page.name.length - (sections.at(-1)!.length + 1))
-          console.log(page.path)            
+          page.name = page.name?.slice(0, page.name.length - (sections.at(-1)!.length + 1))   
         }
       })
   

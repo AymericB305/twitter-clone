@@ -7,13 +7,13 @@
 
     <div class="flex-grow max-w-lg mb-2">
       <div class="flex items-center gap-2" @click="navigateToUser()">
-        <p>{{ user.twitter_name }}</p>
+        <p class="font-medium">{{ user.twitter_name }}</p>
         <p class="text-sm text-gray-400">
-          @{{ user.name }}
+          @{{ user.name }} · {{ formatDate(date) }}
         </p>
       </div>
 
-      <p class="flex-shrink text-base font-medium text-white width-auto">
+      <p class="flex-shrink text-base font-normal text-white width-auto">
         {{ text }}
       </p>
 
@@ -72,7 +72,7 @@ import type { Interaction } from '~/models/interaction';
 import type { Tweet } from '~/models/tweet';
 import type { User } from '~/models/user';
 
-const props = defineProps<{ user: User, text: string, retweets: Interaction[], likes: Interaction[], hasMeRetweeted: boolean, hasMeLiked: boolean, replies: Tweet[] }>()
+const props = defineProps<{ user: User, text: string, retweets: Interaction[], likes: Interaction[], hasMeRetweeted: boolean, hasMeLiked: boolean, replies: Tweet[], date: string }>()
 const emit = defineEmits(['retweet', 'like', 'bookmark'])
 
 function navigateToUser() {
@@ -89,6 +89,11 @@ function like() {
 
 function bookmark() {
   emit('bookmark', true)
+}
+
+function formatDate(isoString: string) {
+  const date = new Date(isoString);
+  return new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }).format(date);
 }
 
 </script>
