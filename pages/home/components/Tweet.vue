@@ -58,7 +58,8 @@
           color="black"
           variant="ghost"
           class="hover:text-blue-500"
-          @click="interact('bookmark', true)"
+          :class="{'text-blue-500': hasMeBookmarked}"
+          @click="interact('bookmark', !props.hasMeBookmarked)"
         />
       </div>
     </div>
@@ -70,7 +71,7 @@
 import { avatars_URL } from '~/constants/const';
 import type { Tweet } from '~/models/tweet';
 
-const props = defineProps<{ tweet: Tweet, hasMeRetweeted: boolean, hasMeLiked: boolean }>()
+const props = defineProps<{ tweet: Tweet, hasMeRetweeted: boolean, hasMeLiked: boolean, hasMeBookmarked: boolean }>()
 const emit = defineEmits(['interact'])
 
 const likes = computed(() => props.tweet.interactions.filter(i => i.liked))

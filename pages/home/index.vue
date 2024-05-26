@@ -7,6 +7,7 @@
       :tweet="tweet"
       :hasMeRetweeted="tweet.interactions.filter(i => i.retweeted).find(i => i.user.name == store.meState.me.name) ? true : false"
       :hasMeLiked="tweet.interactions.filter(i => i.liked).find(i => i.user.name == store.meState.me.name) ? true : false"
+      :hasMeBookmarked="tweet.interactions.filter(i => i.saved).find(i => i.user.name == store.meState.me.name) ? true : false"
       @interact="interact(tweet.id, $event)"
     />
 
