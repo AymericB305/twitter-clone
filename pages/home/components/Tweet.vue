@@ -2,19 +2,19 @@
   <div class="flex pt-4 pr-4">
     <div class="m-2" @click="navigateToUser()">
       <img class="w-12 h-12 rounded-full"
-      :src="avatars_URL + user.email" alt="" />
+      :src="avatars_URL + tweet.user.email" alt="" />
     </div>
 
     <div class="flex-grow max-w-lg mb-2">
       <div class="flex items-center gap-2" @click="navigateToUser()">
-        <p class="font-medium">{{ user.twitter_name }}</p>
+        <p class="font-medium">{{ tweet.user.twitter_name }}</p>
         <p class="text-sm text-gray-400">
-          @{{ user.name }} · {{ formatDate(date) }}
+          @{{ tweet.user.name }} · {{ formatDate(tweet.date) }}
         </p>
       </div>
 
       <p class="flex-shrink text-base font-normal text-white width-auto">
-        {{ text }}
+        {{ tweet.text }}
       </p>
 
       <div class="flex justify-between w-full">
@@ -25,7 +25,7 @@
           class="hover:text-blue-500"
           :ui="{ padding: 'p-0'}"
         >
-          <span :class="{'invisible': replies.length == 0}">{{ replies.length }}</span>
+          <span :class="{'invisible': tweet.replies.length == 0}">{{ tweet.replies.length }}</span>
         </UButton>
         <UButton 
           icon="i-heroicons-arrow-path-rounded-square"
@@ -33,7 +33,7 @@
           variant="ghost"
           class="hover:text-green-500"
           :class="{'text-green-500': hasMeRetweeted}"
-          @click="retweet()"
+          @click="interact('retweet', !props.hasMeRetweeted)"
         >
           <span :class="{'invisible': retweets.length == 0}">{{ retweets.length }}</span>
         </UButton>
@@ -43,7 +43,7 @@
           variant="ghost"
           class="hover:text-red-500"
           :class="{'text-red-500': hasMeLiked}"
-          @click="like()"
+          @click="interact('like', !props.hasMeLiked)"
         >
           <span :class="{'invisible': likes.length == 0}">{{ likes.length }}</span>
         </UButton>
@@ -58,7 +58,7 @@
           color="black"
           variant="ghost"
           class="hover:text-blue-500"
-          @click="bookmark()"
+          @click="interact('bookmark', true)"
         />
       </div>
     </div>
@@ -68,27 +68,20 @@
 
 <script lang="ts" setup>
 import { avatars_URL } from '~/constants/const';
-import type { Interaction } from '~/models/interaction';
 import type { Tweet } from '~/models/tweet';
-import type { User } from '~/models/user';
 
-const props = defineProps<{ user: User, text: string, retweets: Interaction[], likes: Interaction[], hasMeRetweeted: boolean, hasMeLiked: boolean, replies: Tweet[], date: string }>()
-const emit = defineEmits(['retweet', 'like', 'bookmark'])
+const props = defineProps<{ tweet: Tweet, hasMeRetweeted: boolean, hasMeLiked: boolean }>()
+const emit = defineEmits(['interact'])
+
+const likes = computed(() => props.tweet.interactions.filter(i => i.liked))
+const retweets = computed(() => props.tweet.interactions.filter(i => i.retweeted))
 
 function navigateToUser() {
-  navigateTo('/' + props.user.name)
+  navigateTo('/' + props.tweet.user.name)
 }
 
-function retweet() {  
-  emit('retweet', !props.hasMeRetweeted)
-}
-
-function like() {
-  emit('like', !props.hasMeLiked)
-}
-
-function bookmark() {
-  emit('bookmark', true)
+function interact(action: string, activate: boolean) {
+  emit('interact', { action, activate })
 }
 
 function formatDate(isoString: string) {

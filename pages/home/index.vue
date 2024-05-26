@@ -4,17 +4,10 @@
 
     <Tweet
       v-for="tweet in store.timeline"
-      :user="tweet.user"
-      :text="tweet.text"
-      :retweets="tweet.interactions.filter(i => i.retweeted)"
-      :likes="tweet.interactions.filter(i => i.liked)"
+      :tweet="tweet"
       :hasMeRetweeted="tweet.interactions.filter(i => i.retweeted).find(i => i.user.name == store.meState.me.name) ? true : false"
       :hasMeLiked="tweet.interactions.filter(i => i.liked).find(i => i.user.name == store.meState.me.name) ? true : false"
-      :replies="[]"
-      :date="tweet.date"
-      @retweet="interact('retweet', tweet.id, $event)"
-      @like="interact('like', tweet.id, $event)"
-      @bookmark="interact('bookmark', tweet.id, $event)"
+      @interact="interact(tweet.id, $event)"
     />
 
   </div>
@@ -30,9 +23,9 @@ definePageMeta({
 const store = useTwitterStore()
 await store.loadTweets()
 
-async function interact(action: string, tweetId: number, activate: boolean) {
+async function interact(tweetId: number, event: { action: string, activate: boolean }) {
   const name = store.meState.me.name
-  await store.interactTweet(name, action, tweetId, activate)
+  await store.interactTweet(name, event.action, tweetId, event.activate)
 }
 
 </script>
