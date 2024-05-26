@@ -26,24 +26,12 @@
 </template>
 
 <script setup lang="ts">
-import type { FormError, FormSubmitEvent } from '@nuxt/ui/dist/runtime/types';
-
 definePageMeta({
   layout: false
 })
 
 const supabase = useClient()
 const user = useSupabaseUser()
-
-const { data } = await supabase
-    .from('User')
-    .select('*')
-    .eq('email', user?.value?.email ?? '')
-    .single()
-
-  if (data) {
-    navigateTo('/')
-  }
 
 const formState = reactive({
   email: user.value?.email,
@@ -54,7 +42,7 @@ const formState = reactive({
 
 const previewImage = ref()
 
-const validate = (state: any): FormError[] => {
+const validate = (state: any): { path: string; message: string; }[] => {
   const errors = []
   if (!state.username) errors.push({ path: 'username', message: 'Required' })
   if (!state.tn) errors.push({ path: 'tn', message: 'Required' })
@@ -62,7 +50,7 @@ const validate = (state: any): FormError[] => {
   return errors
 }
 
-async function updateProfile(event: FormSubmitEvent<any>) {
+async function updateProfile(event: { data: any; }) {
   try {    
     const formValues = toRaw(event.data)
     
@@ -109,7 +97,7 @@ async function signOut() {
   try {
     const { error } = await supabase.auth.signOut()
     if (error) throw error
-    user.value = null
+    
   } catch (error: any) {
     alert(error.message)
   }

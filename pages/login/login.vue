@@ -62,9 +62,19 @@ const login = async () => {
 }
 
 const user = useSupabaseUser()
-watch(user, () => {  
+watch(user, async () => {  
   if (user.value) {
-    return navigateTo('/account')
+    const { data: userData } = await supabase
+      .from('User')
+      .select('*')
+      .eq('email', user.value.email)
+      .single()
+
+    if (userData) {
+      navigateTo('/')
+    } else {
+      navigateTo('/account')
+    }
   }
 }, { immediate: true })
 </script>
