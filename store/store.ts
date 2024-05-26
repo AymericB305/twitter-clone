@@ -47,25 +47,25 @@ export const useTwitterStore = defineStore({
   actions: {
     async loadMe() {
       const user = useSupabaseUser();
-      const { data } = await useFetch<User>('/api/users/unknown/' + user.value?.email)
-      this.meState.me = data.value!
+      const data = await $fetch<User>('/api/users/unknown/' + user.value?.email)
+      this.meState.me = data
     },
     async loadTweets() {
-      const { data: tweets } = await useFetch<Tweet[]>('/api/tweets')
-      this.timeline = tweets.value!
+      const tweets = await $fetch<Tweet[]>('/api/tweets')
+      this.timeline = tweets
     },
     async sendTweet(tweetText: string) {      
       const body = {
         text: tweetText,
         userName: this.meState.me.name,
       }
-      const { data } = await useFetch('/api/tweets', { method: 'post', body })
+      const data = await $fetch('/api/tweets', { method: 'post', body })
 
       const tweet: Tweet = {
-        id: data.value!.id,
+        id: data!.id,
         text: tweetText,
         user: this.meState.me,
-        date: data.value!.created_at,
+        date: data!.created_at,
         replies: [],
         interactions: [],
       }
@@ -96,7 +96,7 @@ export const useTwitterStore = defineStore({
         tweet.interactions[interactionIndex].saved = activate
       }
       
-      await useFetch(`/api/users/${name}/${action}/${tweetId}`, { method: 'put', body: { activate } })
+      await $fetch(`/api/users/${name}/${action}/${tweetId}`, { method: 'put', body: { activate } })
     },
   },
 
