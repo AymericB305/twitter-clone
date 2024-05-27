@@ -31,7 +31,7 @@
           variant="ghost"
           class="hover:text-blue-500"
           :ui="{ padding: 'p-0'}"
-          @click="isAnswerOpen = true"
+          @click.stop="isAnswerOpen = true"
         >
           <span :class="{'invisible': tweet.replies.length == 0}">{{ tweet.replies.length }}</span>
         </UButton>
