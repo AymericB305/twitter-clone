@@ -6,7 +6,7 @@
     </div>
 
     <div class="flex-grow p-2">
-      <UTextarea class="w-fullfont-medium" v-model="newTweet" variant="none" size="xl" :rows="2" cols="50" placeholder="What's happening?" />
+      <UTextarea class="w-fullfont-medium" v-model="newTweet" variant="none" size="xl" :rows="2" cols="50" :placeholder />
     
       <div class="flex justify-between">
         <div class="flex items-center">
@@ -66,12 +66,15 @@
 import { useTwitterStore } from '~/store/store';
 import { avatars_URL } from '~/constants/const'
 
+defineProps<{ placeholder: string }>()
+const emits = defineEmits(['send'])
+
 const newTweet = ref('')
 const store = useTwitterStore()
 
 async function sendTweet() {  
-  if (newTweet.value) {    
-    await store.sendTweet(newTweet.value)    
+  if (newTweet.value) {
+    emits('send', newTweet.value)   
     newTweet.value = ''
   }
 }

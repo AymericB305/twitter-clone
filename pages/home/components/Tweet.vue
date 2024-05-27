@@ -1,15 +1,15 @@
 <template>
-  <div class="flex pt-4 pr-4">
+  <div class="flex pt-4 pr-4 cursor-pointer hover:bg-blue-200 hover:bg-opacity-5">
     <div class="m-2" @click="navigateToUser()">
       <img class="w-12 h-12 rounded-full"
       :src="avatars_URL + tweet.user.email" alt="" />
     </div>
 
     <div class="flex-grow max-w-lg mb-2">
-      <div class="flex items-center gap-2" @click="navigateToUser()">
-        <p class="font-medium">{{ tweet.user.twitter_name }}</p>
+      <div class="flex items-center gap-2">
+        <p class="font-medium" @click="navigateToUser()">{{ tweet.user.twitter_name }}</p>
         <p class="text-sm text-gray-400">
-          @{{ tweet.user.name }} · {{ formatDate(tweet.date) }}
+          <span @click="navigateToUser()">@{{ tweet.user.name }}</span> · {{ formattedDate }}
         </p>
       </div>
 
@@ -24,6 +24,7 @@
           variant="ghost"
           class="hover:text-blue-500"
           :ui="{ padding: 'p-0'}"
+          @click="isAnswerOpen = true"
         >
           <span :class="{'invisible': tweet.replies.length == 0}">{{ tweet.replies.length }}</span>
         </UButton>
@@ -65,6 +66,10 @@
     </div>
   </div>
   <hr class="border-gray-600">
+  
+  <UModal v-model="isAnswerOpen">
+    <CreateTweet :placeholder="'Post your answer'" @send="reply($event)" />
+  </UModal>
 </template>
 
 <script lang="ts" setup>
@@ -72,10 +77,14 @@ import { avatars_URL } from '~/constants/const';
 import type { Tweet } from '~/models/tweet';
 
 const props = defineProps<{ tweet: Tweet, hasMeRetweeted: boolean, hasMeLiked: boolean, hasMeBookmarked: boolean }>()
-const emit = defineEmits(['interact'])
+const emit = defineEmits(['interact', 'reply'])
+
+const isAnswerOpen = ref(false)
 
 const likes = computed(() => props.tweet.interactions.filter(i => i.liked))
 const retweets = computed(() => props.tweet.interactions.filter(i => i.retweeted))
+
+const formattedDate = computed(() => formatDate(props.tweet.date))
 
 function navigateToUser() {
   navigateTo('/' + props.tweet.user.name)
@@ -85,9 +94,14 @@ function interact(action: string, activate: boolean) {
   emit('interact', { action, activate })
 }
 
-function formatDate(isoString: string) {
+function formatDate(isoString: string): string {
   const date = new Date(isoString);
   return new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }).format(date);
+}
+
+function reply(content: string) {
+  emit('reply', content)
+  isAnswerOpen.value = false
 }
 
 </script>

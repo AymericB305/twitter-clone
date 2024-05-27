@@ -98,6 +98,23 @@ export const useTwitterStore = defineStore({
       
       await $fetch(`/api/users/${name}/${action}/${tweetId}`, { method: 'put', body: { activate } })
     },
+    async sendReply(answerToId: number, tweetText: string) {
+      const body = {
+        text: tweetText,
+        userName: this.meState.me.name,
+        answerToId: answerToId,
+      }
+      const data = await $fetch('/api/tweets', { method: 'post', body })
+      const reply: Tweet = {
+        id: data!.id,
+        text: tweetText,
+        user: this.meState.me,
+        date: data!.created_at,
+        replies: [],
+        interactions: [],
+      }
+      this.timeline.find(t => t.id == answerToId)?.replies.push(reply)
+    }
   },
 
   getters: {

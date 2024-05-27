@@ -4,7 +4,7 @@ import type { Database } from "~/models/supabase"
 export default defineEventHandler(async (event) => {
   const supabase = await serverSupabaseClient<Database>(event)
 
-  const { text, userName } = await readBody<{ text: string, userName: string }>(event)
+  const { text, userName, answerToId } = await readBody<{ text: string, userName: string, answerToId: number | undefined }>(event)
   
   const { data: request } = await supabase
     .from('User')
@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
   const { data: answer } = await supabase
     .from('Tweet')
     .insert([
-      { user_id: request!.id, text }
+      { user_id: request!.id, text, answer_to_id: answerToId }
     ])
     .select()
     .single()
