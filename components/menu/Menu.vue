@@ -28,7 +28,7 @@
 import { useTwitterStore } from '~/store/store';
 
 const store = useTwitterStore()
-store.loadMe()
+await useAsyncData('loadMe', () => store.loadMe().then(() => true))
 const me = store.meState.me;
 
 const links = [

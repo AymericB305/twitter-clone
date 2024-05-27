@@ -23,7 +23,7 @@ definePageMeta({
 })
 
 const store = useTwitterStore()
-await store.loadTweets()
+await useAsyncData('loadTweets', () => store.loadTweets().then(() => true))
 
 async function interact(tweetId: number, event: { action: string, activate: boolean }) {
   const name = store.meState.me.name
