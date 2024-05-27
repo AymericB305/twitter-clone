@@ -19,8 +19,9 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
-    "@nuxt/ui": "2.15.0",
+    "@nuxt/ui": "2.16.0",
     "@nuxtjs/color-mode": "^3.3.0",
+    "@vueuse/core": "^10.10.0",
     "pinia": "^2.1.7",
     "radix-vue": "^1.0.2"
   }

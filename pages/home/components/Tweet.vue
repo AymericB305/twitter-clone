@@ -11,6 +11,13 @@
         <p class="text-sm text-gray-400">
           <span @click.stop="navigateToUser()">@{{ tweet.user.name }}</span> · {{ formattedDate }}
         </p>
+
+        <UButton
+          icon="i-heroicons-ellipsis-horizontal"
+          color="black"
+          variant="ghost"
+          class="justify-end"
+          @click.stop="openContextMenu()"/>
       </div>
 
       <p class="flex-shrink text-base font-normal text-white width-auto">
@@ -65,6 +72,12 @@
         />
       </div>
     </div>
+
+    <UContextMenu v-model="isContextOpen" :virtual-element="virtualElement">
+      <div class="p-4" @click.stop="deleteTweet()">
+        Delete this tweet
+      </div>
+    </UContextMenu>
   </div>
   <hr class="border-gray-600">
   
@@ -76,11 +89,13 @@
 <script lang="ts" setup>
 import { avatars_URL } from '~/constants/const';
 import type { Tweet } from '~/models/tweet';
+import { useMouse, useWindowScroll } from '@vueuse/core'
 
 const props = defineProps<{ tweet: Tweet, hasMeRetweeted: boolean, hasMeLiked: boolean, hasMeBookmarked: boolean }>()
-const emit = defineEmits(['interact', 'reply'])
+const emit = defineEmits(['interact', 'reply', 'delete'])
 
 const isAnswerOpen = ref(false)
+const isContextOpen = ref(false)
 
 const likes = computed(() => props.tweet.interactions.filter(i => i.liked))
 const retweets = computed(() => props.tweet.interactions.filter(i => i.retweeted))
@@ -113,6 +128,28 @@ async function copy() {
   await navigator.clipboard.writeText(route.href + tweetUrl.value)
 
   toast.add({ title: 'Copied to clipboard!' })
+}
+
+const { x, y } = useMouse()
+const { y: windowY } = useWindowScroll()
+const virtualElement = ref({ getBoundingClientRect: () => ({}) })
+
+function openContextMenu () {
+  const top = unref(y) - unref(windowY)
+  const left = unref(x)
+
+  virtualElement.value.getBoundingClientRect = () => ({
+    width: 0,
+    height: 0,
+    top,
+    left
+  })
+
+  isContextOpen.value = true
+}
+
+function deleteTweet() {
+  emit('delete')
 }
 
 </script>

@@ -10,6 +10,7 @@
       :hasMeBookmarked="tweet.interactions.filter(i => i.saved).find(i => i.user.name == store.meState.me.name) ? true : false"
       @interact="interact(tweet.id, $event)"
       @reply="reply(tweet.id, $event)"
+      @delete="deleteTweet(tweet.id)"
     />
 
   </div>
@@ -36,6 +37,10 @@ async function sendTweet(newTweet: string) {
 
 async function reply(tweetId: number, reply: string) {
   store.sendReply(tweetId, reply)
+}
+
+async function deleteTweet(tweetId: number) {
+  store.deleteTweet(tweetId)
 }
 
 </script>

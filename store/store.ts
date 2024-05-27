@@ -114,6 +114,10 @@ export const useTwitterStore = defineStore({
         interactions: [],
       }
       this.timeline.find(t => t.id == answerToId)?.replies.push(reply)
+    },
+    async deleteTweet(tweetId: number) {
+      await $fetch('/api/tweets/' + tweetId, { method: 'delete' })
+      this.timeline = this.timeline.filter(t => t.id != tweetId)
     }
   },
 
