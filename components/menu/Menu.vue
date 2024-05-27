@@ -17,10 +17,14 @@
       :ui="{ rounded: 'rounded-full' }"
       class="mt-4 !text-white"
       block
+      @click="isSendTweetOpen = true"
     />
 
     <Me :me="me" />
 
+    <UModal v-model="isSendTweetOpen">
+      <CreateTweet :placeholder="'What\'s happening'" @send="sendTweet($event)" />
+    </UModal>
   </div>
 </template>
 
@@ -67,5 +71,12 @@ const links = [
     icon: 'i-heroicons-ellipsis-horizontal-circle',
   },
 ]
+
+const isSendTweetOpen = ref(false)
+
+async function sendTweet(newTweet: string) {
+  isSendTweetOpen.value = false
+  await store.sendTweet(newTweet)
+}
 
 </script>

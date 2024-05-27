@@ -117,8 +117,8 @@ function formatDate(isoString: string): string {
 }
 
 function reply(content: string) {
-  emit('reply', content)
   isAnswerOpen.value = false
+  emit('reply', content)
 }
 
 const route = useRequestURL()
