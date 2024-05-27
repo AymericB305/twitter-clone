@@ -8,7 +8,7 @@
     <div class="flex-grow max-w-lg mb-2">
       <div class="flex items-center gap-2">
         <p class="font-medium" @click.stop="navigateToUser()">{{ tweet.user.twitter_name }}</p>
-        <p class="text-sm text-gray-400">
+        <p class="flex-grow text-sm text-gray-400">
           <span @click.stop="navigateToUser()">@{{ tweet.user.name }}</span> · {{ formattedDate }}
         </p>
 
@@ -16,7 +16,7 @@
           icon="i-heroicons-ellipsis-horizontal"
           color="black"
           variant="ghost"
-          class="justify-end flex-grow"
+          class="justify-end"
           @click.stop="openContextMenu()"/>
       </div>
 

@@ -51,7 +51,7 @@ async function reply(tweetId: number, reply: string) {
 }
 
 async function deleteTweet(tweetId: number) {
-  if (tweet.user!.email === store.meState.me.email)
+  if (tweet.user.email === store.meState.me.email)
     store.deleteTweet(tweetId)
 }
 </script>
