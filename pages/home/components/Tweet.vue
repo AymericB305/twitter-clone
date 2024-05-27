@@ -1,15 +1,15 @@
 <template>
-  <div class="flex pt-4 pr-4 cursor-pointer hover:bg-blue-200 hover:bg-opacity-5">
-    <div class="m-2" @click="navigateToUser()">
+  <div class="flex pt-4 pr-4 cursor-pointer hover:bg-blue-200 hover:bg-opacity-5" @click="navigateTo(tweetUrl)">
+    <div class="m-2" @click.stop="navigateToUser()">
       <img class="w-12 h-12 rounded-full"
       :src="avatars_URL + tweet.user.email" alt="" />
     </div>
 
     <div class="flex-grow max-w-lg mb-2">
       <div class="flex items-center gap-2">
-        <p class="font-medium" @click="navigateToUser()">{{ tweet.user.twitter_name }}</p>
+        <p class="font-medium" @click.stop="navigateToUser()">{{ tweet.user.twitter_name }}</p>
         <p class="text-sm text-gray-400">
-          <span @click="navigateToUser()">@{{ tweet.user.name }}</span> · {{ formattedDate }}
+          <span @click.stop="navigateToUser()">@{{ tweet.user.name }}</span> · {{ formattedDate }}
         </p>
       </div>
 
@@ -34,7 +34,7 @@
           variant="ghost"
           class="hover:text-green-500"
           :class="{'text-green-500': hasMeRetweeted}"
-          @click="interact('retweet', !props.hasMeRetweeted)"
+          @click.stop="interact('retweet', !props.hasMeRetweeted)"
         >
           <span :class="{'invisible': retweets.length == 0}">{{ retweets.length }}</span>
         </UButton>
@@ -44,7 +44,7 @@
           variant="ghost"
           class="hover:text-red-500"
           :class="{'text-red-500': hasMeLiked}"
-          @click="interact('like', !props.hasMeLiked)"
+          @click.stop="interact('like', !props.hasMeLiked)"
         >
           <span :class="{'invisible': likes.length == 0}">{{ likes.length }}</span>
         </UButton>
@@ -53,7 +53,7 @@
           color="black"
           variant="ghost"
           class="hover:text-blue-500"
-          @click="copy()"
+          @click.stop="copy()"
         />
         <UButton 
           icon="i-heroicons-bookmark"
@@ -61,7 +61,7 @@
           variant="ghost"
           class="hover:text-blue-500"
           :class="{'text-blue-500': hasMeBookmarked}"
-          @click="interact('bookmark', !props.hasMeBookmarked)"
+          @click.stop="interact('bookmark', !props.hasMeBookmarked)"
         />
       </div>
     </div>
@@ -84,6 +84,7 @@ const isAnswerOpen = ref(false)
 
 const likes = computed(() => props.tweet.interactions.filter(i => i.liked))
 const retweets = computed(() => props.tweet.interactions.filter(i => i.retweeted))
+const tweetUrl = computed(() => props.tweet.user.name + '/status/' + props.tweet.id)
 
 const formattedDate = computed(() => formatDate(props.tweet.date))
 
@@ -109,7 +110,7 @@ const route = useRequestURL()
 const toast = useToast()
 
 async function copy() {  
-  await navigator.clipboard.writeText(route.href + props.tweet.user.name + '/status/' + props.tweet.id)
+  await navigator.clipboard.writeText(route.href + tweetUrl.value)
 
   toast.add({ title: 'Copied to clipboard!' })
 }
