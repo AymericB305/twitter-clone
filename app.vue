@@ -1,6 +1,8 @@
 <template>
   <NuxtLayout :title="routeName">
     <NuxtPage />
+
+    <UNotifications />
   </NuxtLayout>
 </template>
 

@@ -53,6 +53,7 @@
           color="black"
           variant="ghost"
           class="hover:text-blue-500"
+          @click="copy()"
         />
         <UButton 
           icon="i-heroicons-bookmark"
@@ -102,6 +103,15 @@ function formatDate(isoString: string): string {
 function reply(content: string) {
   emit('reply', content)
   isAnswerOpen.value = false
+}
+
+const route = useRequestURL()
+const toast = useToast()
+
+async function copy() {  
+  await navigator.clipboard.writeText(route.href + props.tweet.user.name + '/status/' + props.tweet.id)
+
+  toast.add({ title: 'Copied to clipboard!' })
 }
 
 </script>
