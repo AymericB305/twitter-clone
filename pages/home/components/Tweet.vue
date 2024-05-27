@@ -16,7 +16,7 @@
           icon="i-heroicons-ellipsis-horizontal"
           color="black"
           variant="ghost"
-          class="justify-end"
+          class="justify-end flex-grow"
           @click.stop="openContextMenu()"/>
       </div>
 
@@ -99,7 +99,7 @@ const isContextOpen = ref(false)
 
 const likes = computed(() => props.tweet.interactions.filter(i => i.liked))
 const retweets = computed(() => props.tweet.interactions.filter(i => i.retweeted))
-const tweetUrl = computed(() => props.tweet.user.name + '/status/' + props.tweet.id)
+const tweetUrl = computed(() => '/' + props.tweet.user.name + '/status/' + props.tweet.id)
 
 const formattedDate = computed(() => formatDate(props.tweet.date))
 
@@ -125,7 +125,7 @@ const route = useRequestURL()
 const toast = useToast()
 
 async function copy() {  
-  await navigator.clipboard.writeText(route.href + tweetUrl.value)
+  await navigator.clipboard.writeText(route.origin + tweetUrl.value)
 
   toast.add({ title: 'Copied to clipboard!' })
 }

@@ -9,4 +9,5 @@ export type Tweet = {
   date: string,
   replies: Tweet[],
   interactions: Interaction[],
+  answer_to_id?: number,
 }

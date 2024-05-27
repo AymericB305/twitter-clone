@@ -3,7 +3,7 @@
     <CreateTweet :placeholder="'What\'s happening?'" @send="sendTweet($event)"/>
 
     <Tweet
-      v-for="tweet in store.timeline"
+      v-for="tweet in store.getTimelineTweets"
       :tweet="tweet"
       :hasMeRetweeted="tweet.interactions.filter(i => i.retweeted).find(i => i.user.name == store.meState.me.name) ? true : false"
       :hasMeLiked="tweet.interactions.filter(i => i.liked).find(i => i.user.name == store.meState.me.name) ? true : false"
@@ -25,7 +25,6 @@ definePageMeta({
 })
 
 const store = useTwitterStore()
-await useAsyncData('loadTweets', () => store.loadTweets().then(() => true))
 
 async function interact(tweetId: number, event: { action: string, activate: boolean }) {
   const name = store.meState.me.name
