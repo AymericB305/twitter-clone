@@ -7,13 +7,8 @@ export default defineEventHandler(async (event) => {
     .from('Tweet')
     .select(`id, text, date:created_at, answer_to_id,
             user:User!Tweet_user_id_fkey(*),
-            interactions:UserTweet(liked, retweeted, saved, user:User(*)),
-            replies:Tweet!answer_to_id(id, text, date:created_at, answer_to_id,
-              user:User!Tweet_user_id_fkey(*),
-              interactions:UserTweet(liked, retweeted, saved, user:User(*)),
-              replies:Tweet!answer_to_id(id, text, date:created_at, answer_to_id)
-            )`
-          )
+            interactions:UserTweet(liked, retweeted, saved, user:User(*))
+          `)
     .order('created_at', {ascending: false})
 
   if (error)

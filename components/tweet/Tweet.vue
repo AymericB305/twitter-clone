@@ -46,7 +46,7 @@
           :ui="{ padding: 'p-0'}"
           @click.stop="isAnswerOpen = true"
         >
-          <span :class="{'invisible': tweet.replies.length == 0}">{{ tweet.replies.length }}</span>
+          <span :class="{'invisible': replies.length == 0}">{{ replies.length }}</span>
         </UButton>
         <UButton 
           icon="i-heroicons-arrow-path-rounded-square"
@@ -116,6 +116,7 @@ const isContextOpen = ref(false)
 const likes = computed(() => props.tweet.interactions.filter(i => i.liked))
 const retweets = computed(() => props.tweet.interactions.filter(i => i.retweeted))
 const bookmarks = computed(() => props.tweet.interactions.filter(i => i.saved))
+const replies = computed(() => store.getRepliesByParentId(props.tweet.id))
 
 const hasMeLiked = computed(() => likes.value.find(i => i.user.name == store.meState.me.name) ? true : false)
 const hasMeRetweeted = computed(() => retweets.value.find(i => i.user.name == store.meState.me.name) ? true : false)

@@ -7,7 +7,6 @@ export type Tweet = {
   text: string,
   mediaUrl?: string,
   date: string,
-  replies: Tweet[],
   interactions: Interaction[],
   answer_to_id?: number,
 }

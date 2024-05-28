@@ -66,7 +66,6 @@ export const useTwitterStore = defineStore({
         text: tweetText,
         user: this.meState.me,
         date: data!.created_at,
-        replies: [],
         interactions: [],
       }
       this.timeline.unshift(tweet)
@@ -110,11 +109,9 @@ export const useTwitterStore = defineStore({
         text: tweetText,
         user: this.meState.me,
         date: data!.created_at,
-        replies: [],
         interactions: [],
         answer_to_id: data?.answer_to_id as number
       }
-      this.timeline.find(t => t.id == answerToId)?.replies.push(reply)
       this.timeline.push(reply)
     },
     async deleteTweet(tweetId: number) {
@@ -127,6 +124,9 @@ export const useTwitterStore = defineStore({
     getTimelineTweets(): Tweet[] {
       return this.timeline.filter(t => !t.answer_to_id)
     },
+    getRepliesByParentId: (state) => {
+      return (id: number) => state.timeline.filter(t => t.answer_to_id === id).sort((a, b) => a.id - b.id)
+    }
   },
 })
 

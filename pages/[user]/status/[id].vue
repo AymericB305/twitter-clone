@@ -11,7 +11,7 @@
     <CreateTweet :isReply="true" @send="reply($event)" />
 
     <Tweet      
-      v-for="replyTweet in tweet.replies"
+      v-for="replyTweet in replies"
       :tweet="replyTweet"
       @interact="interact($event)"
       @reply="reply($event)"
@@ -36,7 +36,8 @@ if (!data) {
 
 const tweet = data!
 
-const answerTo : Tweet | undefined = store.timeline.find(t => t.id === tweet.answer_to_id)
+const answerTo: Tweet | undefined = store.timeline.find(t => t.id === tweet.answer_to_id)
+const replies: Tweet[] = store.getRepliesByParentId(tweet.id) 
 
 async function interact(event: { id: number, action: string, activate: boolean }) {
   const name = store.meState.me.name
