@@ -8,7 +8,7 @@
       @delete="deleteTweet($event)"
     />
     
-    <CreateTweet :isReply="true" @send="reply($event)" />
+    <CreateTweet :isReply="true" :userToReply="tweet.user.name" @send="reply($event)" />
 
     <Tweet      
       v-for="replyTweet in replies"

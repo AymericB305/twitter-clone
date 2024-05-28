@@ -95,7 +95,7 @@
   <hr v-if="!isParent" class="border-gray-600">
   
   <UModal v-model="isAnswerOpen">
-    <CreateTweet :isReply="true" @send="reply(tweet.id, $event)" />
+    <CreateTweet :isReply="true" :userToReply="tweet.user.name" @send="reply(tweet.id, $event)" />
   </UModal>
 </template>
 
