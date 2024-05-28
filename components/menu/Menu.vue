@@ -8,7 +8,13 @@
       </g>
     </svg>
 
-    <UVerticalNavigation :links="links" />
+    <UVerticalNavigation
+      :links="links"
+      :ui="{
+        size: 'text-2xl',
+        inactive: 'dark:text-white dark:hover:text-white dark:hover:before:bg-gray-800/50'
+      }"
+    />
 
     <UButton 
       size="lg"

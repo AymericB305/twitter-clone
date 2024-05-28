@@ -13,12 +13,12 @@
     <div class="flex flex-col mx-2" :class="{ 'mt-2': !answerTo }" @click.stop="navigateToUser()">      
       <UDivider v-if="answerTo" orientation="vertical" size="sm" class="h-1" />
 
-      <img class="w-12 h-12 rounded-full" :src="avatars_URL + tweet.user.email" alt="" />
+      <img class="w-12 h-12 rounded-full min-w-12" :src="avatars_URL + tweet.user.email" alt="" />
 
       <UDivider v-if="isParent" class="flex-grow" orientation="vertical" size="sm" />
     </div>
 
-    <div class="flex-grow max-w-lg mb-2">
+    <div class="flex-grow mb-2">
       <div class="flex items-center gap-2">
         <p class="font-medium" @click.stop="navigateToUser()">{{ tweet.user.twitter_name }}</p>
         <p class="flex-grow text-sm text-gray-400">
