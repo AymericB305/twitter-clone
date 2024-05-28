@@ -29,21 +29,20 @@ const route = useRoute()
 const id = +route.params.id
 
 const store = useTwitterStore()
-const data: Tweet | undefined = store.timeline.find(t => t.id === id)
+const storeRefs = storeToRefs(store)
+const data = computed(() => storeRefs.timeline.value.find(t => t.id === id))
 
-if (!data) {
+if (!data.value) {
   navigateTo('/')
 }
 
-const tweet = data!
+const tweet = ref(data.value!)
 
-const answerTo: Tweet | undefined = store.timeline.find(t => t.id === tweet.answer_to_id)
-const replies: Tweet[] = store.getRepliesByParentId(tweet.id) 
+const answerTo = computed(() => storeRefs.timeline.value.find(t => t.id === tweet.value.answer_to_id))
+const replies: Tweet[] = store.getRepliesByParentId(tweet.value.id) 
 
 async function interact(event: { id: number, action: string, activate: boolean }) {
-  const name = store.meState.me.name
-  console.log(event.id);
-  
+  const name = storeRefs.meState.value.me.name  
   await store.interactTweet(name, event.action, event.id, event.activate)
 }
 
@@ -52,7 +51,7 @@ async function reply(event : { id: number, content: string }) {
 }
 
 async function deleteTweet(id: number) {
-  if (tweet.user.email === store.meState.me.email)
+  if (tweet.value.user.email === storeRefs.meState.value.me.email)
     store.deleteTweet(id)
 }
 </script>

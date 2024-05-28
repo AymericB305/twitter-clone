@@ -2,7 +2,7 @@
   <div class="flex" :class="{ 'items-center': isReply }">
     <div class="m-2">
       <img class="w-12 h-12 rounded-full"
-        :src="avatars_URL + store.meState.me.email" alt="" />
+        :src="avatars_URL + store.meState.me?.email" alt="" />
     </div>
 
     <div class="flex-grow p-2">

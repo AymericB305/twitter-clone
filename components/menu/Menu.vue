@@ -70,7 +70,7 @@ const links = [
   {
     label: 'Profile',
     icon: 'i-heroicons-user',
-    to: '/' + me.name
+    to: '/account'
   },
   {
     label: 'More',

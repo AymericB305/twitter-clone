@@ -18,14 +18,20 @@
         <UInput v-model="formState.birthday" />
       </UFormGroup>
 
-      <UButton type="submit">
+      <UButton type="submit" class="mt-4">
         Update
       </UButton>
     </UForm>
+
+    <UButton @click="signOut()" label="sign out" />
+    <UButton to="/" label="home" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { avatars_URL } from '~/constants/const';
+import { useTwitterStore } from '~/store/store';
+
 definePageMeta({
   layout: false
 })
@@ -33,14 +39,18 @@ definePageMeta({
 const supabase = useClient()
 const user = useSupabaseUser()
 
+const store = useTwitterStore()
+const storeRefs = storeToRefs(store)
+const me = computed(() => storeRefs.meState.value.me)
+
 const formState = reactive({
   email: user.value?.email,
-  username: undefined,
-  tn: undefined,
-  birthday: undefined,
+  username: me.value.name,
+  tn: me.value.twitter_name,
+  birthday: formatDate(me.value.birthday),
 })
 
-const previewImage = ref()
+const previewImage = ref(avatars_URL + me.value.email)
 
 const validate = (state: any): { path: string; message: string; }[] => {
   const errors = []
@@ -66,7 +76,7 @@ async function updateProfile(event: { data: any; }) {
       .from('User')
       .upsert(updates, {
         returning: 'minimal',
-      })
+      })      
     if (error) {
       throw error
     }
@@ -81,7 +91,7 @@ async function uploadImage(e: any) {
   const reader = new FileReader()
   reader.readAsDataURL(image)
   reader.onload = e => {
-    previewImage.value = e?.target?.result
+    previewImage.value = e?.target?.result as string
   }
   
   const email = user.value?.email ?? ''
@@ -97,7 +107,8 @@ async function signOut() {
   try {
     const { error } = await supabase.auth.signOut()
     if (error) throw error
-    
+    await store.signOut()
+    navigateTo('/login')
   } catch (error: any) {
     alert(error.message)
   }

@@ -135,11 +135,6 @@ function interact(id: number, action: string, activate: boolean) {
   emit('interact', { id, action, activate })
 }
 
-function formatDate(isoString: string): string {
-  const date = new Date(isoString);
-  return new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }).format(date);
-}
-
 function reply(id: number, content: string) {
   isAnswerOpen.value = false
   emit('reply', { id, content })

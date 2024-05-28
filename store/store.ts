@@ -2,21 +2,18 @@ import type { User } from '~/models/user';
 import type { Tweet } from '~/models/tweet';
 import type { State } from './state';
 
-const me: User = {
-  email: "aymericbreton8535@gmail.com",
-  name: "AymeBric305",
-  twitter_name: "Fingolfin",
-}
-
 const initialState: State = {
   meState: {
-    me,
+    me: {
+      name: '',
+      email: '',
+      twitter_name: '',
+      birthday: '1900-01-01 00:00:00+00',
+    },
     notifications: [],
     conversations: [],
   },
-  suggestions: [
-    me, me,
-  ],
+  suggestions: [],
   trends: [
     {
       name: "Dinguerie",
@@ -48,7 +45,11 @@ export const useTwitterStore = defineStore({
     async loadMe() {
       const user = useSupabaseUser();
       const data = await $fetch<User>('/api/users/unknown/' + user.value?.email)
-      this.meState.me = data
+      this.meState = {
+        me: data,
+        conversations: [],
+        notifications: [],
+      }
     },
     async loadTweets() {
       const tweets = await $fetch<Tweet[]>('/api/tweets')
@@ -117,6 +118,18 @@ export const useTwitterStore = defineStore({
     async deleteTweet(tweetId: number) {
       await $fetch(`/api/tweets/${tweetId}`, { method: 'delete' })
       this.timeline = this.timeline.filter(t => t.id != tweetId)
+    },
+    async signOut() {
+      this.meState = {
+        me: {
+          name: '',
+          email: '',
+          twitter_name: '',
+          birthday: '',
+        },
+        conversations: [],
+        notifications: [],
+      }
     },
   },
 
