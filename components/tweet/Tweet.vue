@@ -3,15 +3,19 @@
     v-if="answerTo"
     :tweet="answerTo"
     :answerTo="store.timeline.find(t => t.id === answerTo?.answer_to_id)"
+    :isParent="true"
     @interact="interact($event.id, $event.action, $event.activate)"
     @reply="reply($event.id, $event.content)"
     @delete="deleteTweet($event.id)"
   />
 
-  <div class="flex pt-4 pr-4 cursor-pointer hover:bg-blue-200 hover:bg-opacity-5" @click="navigateTo(tweetUrl)">
-    <div class="m-2" @click.stop="navigateToUser()">
-      <img class="w-12 h-12 rounded-full"
-      :src="avatars_URL + tweet.user.email" alt="" />
+  <div class="flex pr-4 cursor-pointer hover:bg-blue-200 hover:bg-opacity-5" :class="{ 'pt-4': !isParent && !answerTo }" @click="navigateTo(tweetUrl)">
+    <div class="flex flex-col mx-2" :class="{ 'mt-2': !answerTo }" @click.stop="navigateToUser()">      
+      <UDivider v-if="answerTo" orientation="vertical" size="sm" class="h-1" />
+
+      <img class="w-12 h-12 rounded-full" :src="avatars_URL + tweet.user.email" alt="" />
+
+      <UDivider v-if="isParent" class="flex-grow" orientation="vertical" size="sm" />
     </div>
 
     <div class="flex-grow max-w-lg mb-2">
@@ -88,7 +92,7 @@
       </div>
     </UContextMenu>
   </div>
-  <hr class="border-gray-600">
+  <hr v-if="!isParent" class="border-gray-600">
   
   <UModal v-model="isAnswerOpen">
     <CreateTweet :isReply="true" @send="reply(tweet.id, $event)" />
@@ -101,7 +105,7 @@ import type { Tweet } from '~/models/tweet';
 import { useMouse, useWindowScroll } from '@vueuse/core'
 import { useTwitterStore } from '~/store/store';
 
-const props = defineProps<{ tweet: Tweet, answerTo?: Tweet | undefined }>()
+const props = defineProps<{ tweet: Tweet, answerTo?: Tweet | undefined, isParent?: boolean | undefined }>()
 const emit = defineEmits(['interact', 'reply', 'delete'])
 
 const store = useTwitterStore()
