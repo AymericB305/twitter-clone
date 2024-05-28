@@ -9,6 +9,7 @@
     />
     
     <CreateTweet :isReply="true" :userToReply="tweet.user.name" @send="reply($event)" />
+    <UDivider size="xl"/>
 
     <Tweet      
       v-for="replyTweet in replies"

@@ -1,6 +1,7 @@
 <template>
   <div class="h-auto border border-t-0 border-gray-600 w-3xl">    
     <CreateTweet :isReply="false" @send="sendTweet($event)"/>
+    <UDivider size="xl"/>
 
     <Tweet
       v-for="tweet in store.getTimelineTweets"

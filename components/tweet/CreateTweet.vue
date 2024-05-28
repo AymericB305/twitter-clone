@@ -68,8 +68,6 @@
       </div>
     </div>
   </div>
-  
-  <hr class="border-4 border-slate-800">
 </template>
 
 <script lang="ts" setup>
