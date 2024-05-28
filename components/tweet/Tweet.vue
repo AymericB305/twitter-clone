@@ -1,4 +1,13 @@
 <template>
+  <Tweet
+    v-if="answerTo"
+    :tweet="answerTo"
+    :answerTo="store.timeline.find(t => t.id === answerTo?.answer_to_id)"
+    @interact="interact($event.id, $event.action, $event.activate)"
+    @reply="reply($event.id, $event.content)"
+    @delete="deleteTweet($event.id)"
+  />
+
   <div class="flex pt-4 pr-4 cursor-pointer hover:bg-blue-200 hover:bg-opacity-5" @click="navigateTo(tweetUrl)">
     <div class="m-2" @click.stop="navigateToUser()">
       <img class="w-12 h-12 rounded-full"
@@ -41,7 +50,7 @@
           variant="ghost"
           class="hover:text-green-500"
           :class="{'text-green-500': hasMeRetweeted}"
-          @click.stop="interact('retweet', !props.hasMeRetweeted)"
+          @click.stop="interact(tweet.id, 'retweet', !hasMeRetweeted)"
         >
           <span :class="{'invisible': retweets.length == 0}">{{ retweets.length }}</span>
         </UButton>
@@ -51,7 +60,7 @@
           variant="ghost"
           class="hover:text-red-500"
           :class="{'text-red-500': hasMeLiked}"
-          @click.stop="interact('like', !props.hasMeLiked)"
+          @click.stop="interact(tweet.id, 'like', !hasMeLiked)"
         >
           <span :class="{'invisible': likes.length == 0}">{{ likes.length }}</span>
         </UButton>
@@ -68,13 +77,13 @@
           variant="ghost"
           class="hover:text-blue-500"
           :class="{'text-blue-500': hasMeBookmarked}"
-          @click.stop="interact('bookmark', !props.hasMeBookmarked)"
+          @click.stop="interact(tweet.id, 'bookmark', !hasMeBookmarked)"
         />
       </div>
     </div>
 
     <UContextMenu v-model="isContextOpen" :virtual-element="virtualElement">
-      <div class="p-4" @click.stop="deleteTweet()">
+      <div class="p-4" @click.stop="deleteTweet(tweet.id)">
         Delete this tweet
       </div>
     </UContextMenu>
@@ -82,7 +91,7 @@
   <hr class="border-gray-600">
   
   <UModal v-model="isAnswerOpen">
-    <CreateTweet :placeholder="'Post your answer'" @send="reply($event)" />
+    <CreateTweet :isReply="true" @send="reply(tweet.id, $event)" />
   </UModal>
 </template>
 
@@ -90,25 +99,35 @@
 import { avatars_URL } from '~/constants/const';
 import type { Tweet } from '~/models/tweet';
 import { useMouse, useWindowScroll } from '@vueuse/core'
+import { useTwitterStore } from '~/store/store';
 
-const props = defineProps<{ tweet: Tweet, hasMeRetweeted: boolean, hasMeLiked: boolean, hasMeBookmarked: boolean }>()
+const props = defineProps<{ tweet: Tweet, answerTo?: Tweet | undefined }>()
 const emit = defineEmits(['interact', 'reply', 'delete'])
+
+const store = useTwitterStore()
 
 const isAnswerOpen = ref(false)
 const isContextOpen = ref(false)
 
 const likes = computed(() => props.tweet.interactions.filter(i => i.liked))
 const retweets = computed(() => props.tweet.interactions.filter(i => i.retweeted))
-const tweetUrl = computed(() => '/' + props.tweet.user.name + '/status/' + props.tweet.id)
+const bookmarks = computed(() => props.tweet.interactions.filter(i => i.saved))
 
+const hasMeLiked = computed(() => likes.value.find(i => i.user.name == store.meState.me.name) ? true : false)
+const hasMeRetweeted = computed(() => retweets.value.find(i => i.user.name == store.meState.me.name) ? true : false)
+const hasMeBookmarked = computed(() => bookmarks.value.find(i => i.user.name == store.meState.me.name) ? true : false)
+
+const tweetUrl = computed(() => '/' + props.tweet.user.name + '/status/' + props.tweet.id)
 const formattedDate = computed(() => formatDate(props.tweet.date))
 
 function navigateToUser() {
   navigateTo('/' + props.tweet.user.name)
 }
 
-function interact(action: string, activate: boolean) {
-  emit('interact', { action, activate })
+function interact(id: number, action: string, activate: boolean) {
+  console.log(id);
+  
+  emit('interact', { id, action, activate })
 }
 
 function formatDate(isoString: string): string {
@@ -116,9 +135,9 @@ function formatDate(isoString: string): string {
   return new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }).format(date);
 }
 
-function reply(content: string) {
+function reply(id: number, content: string) {
   isAnswerOpen.value = false
-  emit('reply', content)
+  emit('reply', { id, content })
 }
 
 const route = useRequestURL()
@@ -148,8 +167,8 @@ function openContextMenu () {
   isContextOpen.value = true
 }
 
-function deleteTweet() {
-  emit('delete')
+function deleteTweet(id: number) {
+  emit('delete', id)
 }
 
 </script>

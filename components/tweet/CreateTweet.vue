@@ -6,7 +6,15 @@
     </div>
 
     <div class="flex-grow p-2">
-      <UTextarea class="w-fullfont-medium" v-model="newTweet" variant="none" size="xl" :rows="2" cols="50" :placeholder />
+      <UTextarea
+        class="w-fullfont-medium"
+        v-model="newTweet"
+        variant="none"
+        size="xl"
+        :rows="2"
+        cols="50"
+        :placeholder="isReplyData.placholder"
+      />
     
       <div class="flex justify-between">
         <div class="flex items-center">
@@ -50,7 +58,7 @@
         <UButton 
           size="lg"
           color="blue"
-          label="Tweet"
+          :label="isReplyData.buttonText"
           class="!text-white"
           :ui="{ rounded: 'rounded-full' }"
           @click="sendTweet()"
@@ -66,8 +74,10 @@
 import { useTwitterStore } from '~/store/store';
 import { avatars_URL } from '~/constants/const'
 
-defineProps<{ placeholder: string }>()
+const props = defineProps<{ isReply: boolean }>()
 const emits = defineEmits(['send'])
+
+const isReplyData = computed(() => props.isReply ? { placholder: 'Post your answer', buttonText: 'Reply' } : { placholder: 'What\'s happening', buttonText: 'Tweet' })
 
 const newTweet = ref('')
 const store = useTwitterStore()

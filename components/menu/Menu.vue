@@ -23,7 +23,7 @@
     <Me :me="me" />
 
     <UModal v-model="isSendTweetOpen">
-      <CreateTweet :placeholder="'What\'s happening'" @send="sendTweet($event)" />
+      <CreateTweet :isReply="false" @send="sendTweet($event)" />
     </UModal>
   </div>
 </template>
